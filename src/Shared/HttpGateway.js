@@ -1,5 +1,5 @@
 class HttpGateway {
-  get = async path => {
+  get = async (path) => {
     const response = await fetch(path);
     const dto = response.json();
     return dto;
@@ -12,6 +12,14 @@ class HttpGateway {
       headers: {
         "Content-Type": "application/json"
       }
+    });
+    const responseDto = response.json();
+    return responseDto;
+  };
+
+  delete = async (path) => {
+    const response = await fetch(path, {
+      method: "DELETE"
     });
     const responseDto = response.json();
     return responseDto;

@@ -26,6 +26,12 @@ class BooksRepository {
     this.programmersModel.notify();
   };
 
+  deleteBook = async (bookId) => {
+    await this.deleteData(bookId);
+    await this.loadApiData();
+    this.programmersModel.notify();
+  };
+
   loadApiData = async () => {
     const booksDto = await httpGateway.get(this.apiUrl + "books");
     this.programmersModel.value = booksDto.result.map((bookDto) => {
@@ -35,6 +41,10 @@ class BooksRepository {
 
   postData = async (bookDto) => {
     return await httpGateway.post(this.apiUrl + "books", bookDto);
+  };
+
+  deleteData = async (bookId) => {
+    return await httpGateway.delete(this.apiUrl + "books/" + bookId);
   };
 }
 

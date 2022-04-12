@@ -12,7 +12,7 @@ function App() {
 
   React.useEffect(() => {
     async function load() {
-      await booksPresenter.load(viewModel => {
+      await booksPresenter.load((viewModel) => {
         copyViewModelToStateViewModel(viewModel);
       });
     }
@@ -24,12 +24,24 @@ function App() {
       <h3>Books</h3>
       <div>
         {stateViewModel.map((book, i) => {
-          return <div key={i}>{book.name}</div>;
+          return (
+            <div key={i}>
+              <button
+                onClick={() => {
+                  console.log(book);
+                  booksPresenter.deleteBook(book.id);
+                }}
+              >
+                delete
+              </button>
+              {book.name}
+            </div>
+          );
         })}
         <h5>Add Book</h5>
-        name : &nbsp;&nbsp; <input onKeyUp={e => setName(e.target.value)} />
+        name : &nbsp;&nbsp; <input onKeyUp={(e) => setName(e.target.value)} />
         <br />
-        author : <input onKeyUp={e => setAuthor(e.target.value)} />
+        author : <input onKeyUp={(e) => setAuthor(e.target.value)} />
         <br />
         <button
           onClick={() => {

@@ -92,10 +92,30 @@ it("should allow book to be added to api and then viewmodel is updated", async (
     }
   );
 
-  console.log(viewModel[3]);
   expect(viewModel.length).toBe(4);
   expect(viewModel[1].name).toBe("I, Robot");
   expect(viewModel[1].author).toBe("Isaac Asimov");
   expect(viewModel[3].name).toBe("A sample");
   expect(viewModel[3].author).toBe("Abdel");
+});
+
+it("should delete a book by id", async () => {
+  let viewModel = null;
+  let booksPresenter = new BooksPresenter();
+  await booksPresenter.load((result) => {
+    viewModel = result;
+  });
+
+  //anchor
+  expect(viewModel.length).toBe(3);
+
+  //pivot
+  let result = getStub.result.filter((x) => x.id !== 131);
+  console.log(result);
+  getStub.result = result;
+
+  //remove the book
+  await booksPresenter.deleteBook(131);
+
+  expect(viewModel.length).toBe(2);
 });
